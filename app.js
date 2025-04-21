@@ -11,6 +11,5 @@ app.get('/',(req,res,next) => {
     res.send('hello')
 })
 app.listen(3000, (err) => {
-    console.log(err)
     console.log("server listen on port 3000 " )
 })
