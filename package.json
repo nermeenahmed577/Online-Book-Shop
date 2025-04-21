@@ -1,0 +1,26 @@
+{
+  "name": "online-book-shop",
+  "version": "1.0.0",
+  "description": "Online Book Shop",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nermeenahmed577/Online-Book-Shop.git"
+  },
+  "author": "Nermeen_Ahmed",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nermeenahmed577/Online-Book-Shop/issues"
+  },
+  "homepage": "https://github.com/nermeenahmed577/Online-Book-Shop#readme",
+  "dependencies": {
+    "body-parser": "^2.2.0",
+    "ejs": "^3.1.10",
+    "express": "^5.1.0",
+    "mongodb": "^6.15.0",
+    "mongoose": "^8.13.2"
+  }
+}
