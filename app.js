@@ -2,6 +2,10 @@ const express = require("express");
 const path = require("path");
 
 const homeRouter = require('./routes/home.route')
+
+//const cartRouter = require("./routes/cart.route")
+
+
 const app = express();
 
 app.use (express.static(path.join(__dirname,'assets')))
@@ -12,6 +16,8 @@ app.set('view engine','ejs')
 app.set('views','views')
 
 app.use('/',homeRouter)
+
+//app.use("/cart",cartRouter);
 
 app.listen(3000, () => {
     console.log("server listen on port 3000 " )
