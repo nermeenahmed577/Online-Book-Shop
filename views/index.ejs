@@ -4,17 +4,15 @@
     <form action="/" method="GET">
         <select name="category" class="form-control">
             <option value="all">All</option>
-            <option value="fiction">fiction</option>
-            <option value="dystopian">dystopian</option>
-            <option value="science">science</option>
-            <option value="classic">classic</option>
-            <option value="Novel">Novel</option>
-            <option value="literature">literature</option>
-            <input type="submit" class="btn btn-primary" value="Filter">
+            <option value="fiction">Fiction</option>
+            <option value="dystopian">Dystopian</option>
+            <option value="science">Science</option>
+            <option value="classic">Classic</option>
+            <option value="Novel">Novels</option>
+            <option value="literature">Literature</option>
         </select>
-
+        <input type="submit" class="btn btn-primary" value="Filter">
     </form>
-
     <div class="row">
         <% for(let product of products) { %>
             <div class="col col-12 col-md-6 col-lg-4 col-xl-3">
@@ -32,11 +30,36 @@
                             <input type="hidden" name="productId" value="<%= product._id%>">
                             <input type="hidden" name="redirectTo" value="/" >
                             <input type="submit" value="Add to cart" class="btn btn-primary">
-                        </form>
+                        </form>    
+    <% if(products.length === 0 ) { %>
+        <div class="alert alert-danger">
+            There is no Products
+        </div>
+    <% } else { %>
+        <div class="row">
+            <% for(let product of products) { %>
+                <div class="col col-12 col-md-6 col-lg-4 col-xl-3">
+                    <div class="card" style="width: 100%;">
+                        <img src="/<%= product.image%>" class="card-img-top" style="height: 350px ;">
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <a href="/product/<%= product._id%>"><%= product.name%></a>
+                                    <p>Price: <%= product.price%> $</p>
+                            </h5>
+                            <form action="/cart" method="POST" class="add-to-cart-form">
+                                <input type="number" name="amount" class="form-control">
+                                <input type="hidden" name="name" value="<%= product.name%>">
+                                <input type="hidden" name="price" value="<%= product.price%>">
+                                <input type="hidden" name="productId" value="<%= product._id%>">
+                                <input type="hidden" name="redirectTo" value="/">
+                                <input type="submit" value="Add to cart" class="btn btn-primary">
+                            </form>
+                        </div>
                     </div>
                 </div>
-            </div>
-        <% } %>
-    </div>
+            <% } %>
+        </div>
+    <% } %>
+
 </div>
 <%- include('parts/footer') %>
