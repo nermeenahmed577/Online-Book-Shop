@@ -4,7 +4,7 @@ const path = require("path");
 
 const session = require("express-session");
 const SessionStore = require("connect-mongodb-session")(session);
-
+const flash = require('connect-flash');
 
 const homeRouter = require('./routes/home.route')
 
@@ -35,7 +35,7 @@ app.use(
     })
 );
 
-
+app.use (flash())
 
 
 app.use('/',homeRouter)

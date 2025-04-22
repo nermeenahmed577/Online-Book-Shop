@@ -2,7 +2,10 @@ const authModel = require("../models/auth.model.js");
 
 
 exports.getLogin = (req,res,next) => {
-    res.render("login");
+    console.log();
+    res.render("login" , {
+        authError:req.flash('authError')[0]
+    });
 };
 
 
@@ -14,7 +17,7 @@ exports.postLogin = (req, res, next) => {
                 res.redirect("/");
             })
             .catch(err => {
-                console.log(err);
+                req.flash('authError' , err)
                 res.redirect("/login");
             });
            

@@ -4,14 +4,9 @@ const bcrypt = require("bcrypt");
 const DB_URL =
     "mongodb+srv://marimreda777:159357M_R@cluster0.dofpptg.mongodb.net/online-book?retryWrites=true&w=majority&appName=Cluster0";
 const userSchema = mongoose.Schema({
-  
     username: String,
     email: String,
     password: String,
-    // isAdmin: {
-    //     type: Boolean,
-    //     default: false
-    // }
 
 });
 
@@ -30,7 +25,7 @@ exports.login = (email, password) => {
             .then(user => {
                 if (!user) {
                     mongoose.disconnect();
-                    reject("There is no user matching this email");
+                    reject("User Not Found");
                 } else {
                     bcrypt.compare(password, user.password).then(same => {
                         if (!same) {
