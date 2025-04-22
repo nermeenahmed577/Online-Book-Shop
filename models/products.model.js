@@ -31,3 +31,15 @@ exports.getAllProducts = () => {
             });
     });
 };
+
+exports.getProductsByCategory = (category)=>{
+
+    return new Promise((resolve,reject)=>{
+        mongoose.connect(DB_URL).then(()=>{
+            return Product.find({category:category})
+        }).then(products =>{
+            mongoose.disconnect()
+            resolve(products)
+        }).catch(err=>reject(err))
+    })
+}
