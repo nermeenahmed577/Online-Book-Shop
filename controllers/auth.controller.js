@@ -1,5 +1,5 @@
 const authModel = require("../models/auth.model.js");
-
+const validationResult = require("express-validator").validationResult;
 
 exports.getLogin = (req,res,next) => {
     console.log();
@@ -10,6 +10,7 @@ exports.getLogin = (req,res,next) => {
 
 
 exports.postLogin = (req, res, next) => {
+    if (validationResult(req).isEmpty()) {
         authModel
             .login(req.body.email, req.body.password)
             .then(id => {
@@ -20,6 +21,10 @@ exports.postLogin = (req, res, next) => {
                 req.flash('authError' , err)
                 res.redirect("/login");
             });
+        } else {
+            req.flash("validationErrors", validationResult(req).array());
+            res.redirect("/login");
+        }
            
 };
 exports.logout = (req,res,next) => {
