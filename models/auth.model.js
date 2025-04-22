@@ -1,11 +1,8 @@
 const mongoose = require("mongoose");
-
-
 const bcrypt = require("bcrypt");
 
 const DB_URL =
     "mongodb+srv://bassantehab60:o7kM0Wls0L1IFCgl@cluster0.acffgrk.mongodb.net/online_book_shop?retryWrites=true&w=majority&appName=Cluster0";
-
 
 const userSchema = mongoose.Schema({
     username: String,
@@ -15,67 +12,53 @@ const userSchema = mongoose.Schema({
 
 const User = mongoose.model("user", userSchema);
 
-
+// Create a new user
 exports.createNewUser = (username, email, password) => {
-    return new Promise((resolve, reject) => {
-        mongoose
-            .connect(DB_URL)
-            .then(() => {
-                return User.findOne({ email: email });
-            })
-            .then(user => {//user is the return from findone
-                if (user) {
-                    mongoose.disconnect();
-                    reject("email is used");
-                } else {
-                    return bcrypt.hash(password, 10);
-                }
-            })
-            .then(hashedPassword => {
-                let user = new User({
-                    username: username,
-                    email: email,
-                    password: hashedPassword
-                });
-                return user.save();
-            })
-            .then(() => {
+    return mongoose
+        .connect(DB_URL)
+        .then(() => User.findOne({ email }))
+        .then(existingUser => {
+            if (existingUser) {
                 mongoose.disconnect();
-                resolve("user created successfully");
-            })
-
- /* Firstly : Check Mail -- Not Found : Error
-                         -- Found     : Check Password  -- Not Found : Error
-                                                           Found : Set session
-
-*/
-exports.login = (email, password) => {
-    return new Promise((resolve, reject) => {
-        mongoose
-            .connect(DB_URL)
-            .then(() => User.findOne({ email: email }))
-            .then(user => {
-                if (!user) {
-                    mongoose.disconnect();
-                    reject("User Not Found");
-                } else {
-                    bcrypt.compare(password, user.password).then(same => {
-                        if (!same) {
-                            mongoose.disconnect();
-                            reject(new Error("Invalid Password"));
-                        } else {
-                            mongoose.disconnect();
-                            resolve(user._id);
-                        }
-                    });
-                }
-            })
-
-            .catch(err => {
-                mongoose.disconnect();
-                reject(err);
-            });
-    });
-
+                throw new Error("Email is already in use");
+            }
+            return bcrypt.hash(password, 10);
+        })
+        .then(hashedPassword => {
+            const user = new User({ username, email, password: hashedPassword });
+            return user.save();
+        })
+        .then(() => {
+            mongoose.disconnect();
+            return "User created successfully";
+        })
+        .catch(err => {
+            mongoose.disconnect();
+            throw err;
+        });
 };
 
+// User login
+exports.login = (email, password) => {
+    return mongoose
+        .connect(DB_URL)
+        .then(() => User.findOne({ email }))
+        .then(user => {
+            if (!user) {
+                mongoose.disconnect();
+                throw new Error("User not found");
+            }
+            return bcrypt.compare(password, user.password).then(match => {
+                if (!match) {
+                    mongoose.disconnect();
+                    throw new Error("Invalid password");
+                }
+                mongoose.disconnect();
+                return user._id;
+            });
+        })
+        .catch(err => {
+            mongoose.disconnect();
+            throw err;
+        });
+};
