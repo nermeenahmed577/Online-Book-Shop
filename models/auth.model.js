@@ -30,7 +30,7 @@ exports.login = (email, password) => {
             .then(user => {
                 if (!user) {
                     mongoose.disconnect();
-                    reject("There is no user matching this email");
+                    reject("User Not Found");
                 } else {
                     bcrypt.compare(password, user.password).then(same => {
                         if (!same) {
