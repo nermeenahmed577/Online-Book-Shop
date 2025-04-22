@@ -12,7 +12,6 @@ const flash = require('connect-flash');
 const homeRouter = require('./routes/home.route')
 
 
-
 const productRouter = require('./routes/product.route')
 const authRouter = require('./routes/auth.route')
 
@@ -72,6 +71,8 @@ app.use("/product",productRouter)
 
 
 
+
+//app.use("/cart",cartRouter);
 
 app.listen(3000, () => {
     console.log("server listen on port 3000 " )

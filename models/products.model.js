@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
 const DB_URL = 'mongodb://localhost:27017/Online_Book_Shop';
-
 const productSchema = mongoose.Schema({
     name: String,
     author: String,
