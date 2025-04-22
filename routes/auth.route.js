@@ -10,7 +10,6 @@ const authController = require("../controllers/auth.controller");
 router.get("/signup",authController.getSignup);
 router.post(
     "/signup",
-    // authGuard.notAuth,
     bodyParser.urlencoded({ extended: true }),
     check("username")
         .not().isEmpty().withMessage("username is required"),
