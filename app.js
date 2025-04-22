@@ -1,5 +1,8 @@
 const express = require("express");
 const path = require("path");
+const session = require("express-session");
+const SessionStore = require("connect-mongodb-session")(session);
+const flash = require("connect-flash");
 
 
 const session = require("express-session");
@@ -16,7 +19,26 @@ const app = express();
 
 app.use (express.static(path.join(__dirname,'assets')))
 app.use (express.static(path.join(__dirname,'images')))
-app.use (express.static(path.join(__dirname,'views')))
+
+app.use(flash());
+
+const STORE = new SessionStore({
+    uri:
+        "mongodb+srv://bassantehab60:o7kM0Wls0L1IFCgl@cluster0.acffgrk.mongodb.net/online_book_shop?retryWrites=true&w=majority&appName=Cluster0",
+    collection: "sessions"
+});
+
+app.use(
+    session({
+        secret: "this is my secret secret to hash express sessions ......",
+        saveUninitialized: false,
+        store: STORE
+    })
+);
+
+
+// app.use (express.static(path.join(__dirname,'views')))
+
 
 app.set('view engine','ejs')
 app.set('views',path.join(__dirname, 'views'))
@@ -41,9 +63,13 @@ app.use (flash())
 
 
 app.use('/',homeRouter)
-app.use("/product",productRouter)
 
 app.use('/',authRouter)
+=======
+app.use("/product",productRouter)
+
+
+
 
 
 //app.use("/cart",cartRouter);
