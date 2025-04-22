@@ -4,11 +4,6 @@ const session = require("express-session");
 const SessionStore = require("connect-mongodb-session")(session);
 const flash = require("connect-flash");
 
-
-const session = require("express-session");
-const SessionStore = require("connect-mongodb-session")(session);
-const flash = require('connect-flash');
-
 const homeRouter = require('./routes/home.route')
 
 
@@ -45,11 +40,7 @@ app.set('views',path.join(__dirname, 'views'))
 
 
 
-const STORE = new SessionStore({
-    uri:
-        "mongodb+srv://marimreda777:159357M_R@cluster0.dofpptg.mongodb.net/online-book?retryWrites=true&w=majority&appName=Cluster0",
-        collection: "sessions"
-});
+
 
 app.use(
     session({
@@ -65,7 +56,7 @@ app.use (flash())
 app.use('/',homeRouter)
 
 app.use('/',authRouter)
-=======
+
 app.use("/product",productRouter)
 
 
