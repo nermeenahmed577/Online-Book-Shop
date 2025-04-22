@@ -7,8 +7,9 @@ const SessionStore = require("connect-mongodb-session")(session);
 
 
 const homeRouter = require('./routes/home.route')
-const authRouter = require('./routes/auth.route')
 
+const productRouter = require('./routes/product.route')
+const authRouter = require('./routes/auth.route')
 const app = express();
 
 app.use (express.static(path.join(__dirname,'assets')))
@@ -38,7 +39,10 @@ app.use(
 
 
 app.use('/',homeRouter)
+app.use("/product",productRouter)
+
 app.use('/',authRouter)
+
 
 app.listen(3000, () => {
     console.log("server listen on port 3000 " )
