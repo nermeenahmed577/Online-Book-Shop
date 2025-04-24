@@ -19,8 +19,7 @@ app.use (express.static(path.join(__dirname,'images')))
 app.use(flash());
 
 const STORE = new SessionStore({
-    uri:
-        "mongodb+srv://bassantehab60:o7kM0Wls0L1IFCgl@cluster0.acffgrk.mongodb.net/online_book_shop?retryWrites=true&w=majority&appName=Cluster0",
+    uri:"mongodb+srv://bassantehab60:o7kM0Wls0L1IFCgl@cluster0.acffgrk.mongodb.net/online_book_shop?retryWrites=true&w=majority&appName=Cluster0",
     collection: "sessions"
 });
 
