@@ -2,21 +2,33 @@
 <%- include('parts/navbar') %>
 
 <div class="container">
-    <form action="/" method="GET">
-        <select name="category" class="form-control">
-            <option value="all">All</option>
-            <option value="fiction">Fiction</option>
-            <option value="dystopian">Dystopian</option>
-            <option value="science">Science</option>
-            <option value="classic">Classic</option>
-            <option value="Novel">Novels</option>
-            <option value="literature">Literature</option>
-        </select>
-        <input type="submit" class="btn btn-primary" value="Filter">
+    <form class="filter" action="/" method="GET">
+        <div class="row">
+            <div class="col col-md-10">
+                <select name="category" class="form-control">
+                    <option value="all">All</option>
+                    <option value="fiction">Fiction</option>
+                    <option value="dystopian">Dystopian</option>
+                    <option value="science">Science</option>
+                    <option value="classic">Classic</option>
+                    <option value="Novel">Novels</option>
+                    <option value="literature">Literature</option>
+                </select>
+            </div>
+            <div class="col col-md-2" >
+                <input type="submit" class="btn btn-primary" value="Filter">
+            </div>
+        </div>
     </form>
 
+    <% if(validationError) { %>
+        <p class="alert alert-danger">
+            <% validationError.msg %> 
+        </p>
+    <% } %>
+
     <% if (products.length === 0) { %>
-        <div class="alert alert-danger mt-4">
+        <div class="alert alert-danger">
             There are no products.
         </div>
     <% } else { %>
@@ -28,8 +40,8 @@
                         <div class="card-body">
                             <h5 class="card-title">
                                 <a href="/product/<%= product._id %>"><%= product.name %></a>
+                                <p>Price: <%= product.price %> $</p>
                             </h5>
-                            <p>Price: <%= product.price %> $</p>
                             <form action="/cart" method="POST" class="add-to-cart-form">
                                 <input type="number" name="amount" class="form-control mb-2" min="1" value="1">
                                 <input type="hidden" name="name" value="<%= product.name %>">

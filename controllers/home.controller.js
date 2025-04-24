@@ -11,13 +11,15 @@ exports.getHome = (req, res, next) => {
 
     let validCategories = ['fiction', 'dystopian', 'science', 'classic', 'Novel', 'literature']
     let productsPromise
-    if (category && validCategories.includes(category)) productsPromise = productsModel.getProductsByCategory(category)
+    if (category && validCategories.includes(category)) 
+        productsPromise = productsModel.getProductsByCategory(category)
     else productsPromise = productsModel.getAllProducts(category)
     
     productsPromise.then(products => {
         res.render('index', {
             products: products,
-            isUser : req.session.userId
+            isUser : req.session.userId,
+            validationError: req.flash('validationErrors')[0]
         })
     })
 }

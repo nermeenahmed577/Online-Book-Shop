@@ -6,9 +6,10 @@ const flash = require("connect-flash");
 
 const homeRouter = require('./routes/home.route')
 
-
 const productRouter = require('./routes/product.route')
 const authRouter = require('./routes/auth.route')
+
+const cartRouter = require("./routes/cart.route")
 
 const app = express();
 
@@ -27,7 +28,8 @@ app.use(
     session({
         secret: "this is my secret secret to hash express sessions ......",
         saveUninitialized: false,
-        store: STORE
+        store: STORE,
+        resave: false             // <== Fixes the warning
     })
 );
 
@@ -43,7 +45,8 @@ app.use(
     session({
         secret: "this is my secret secret to hash express sessions ......",
         saveUninitialized: false,
-        store: STORE
+        store: STORE,
+        resave: false
     })
 );
 
@@ -55,12 +58,7 @@ app.use('/',homeRouter)
 app.use('/',authRouter)
 
 app.use("/product",productRouter)
-
-
-
-
-
-//app.use("/cart",cartRouter);
+app.use("/cart",cartRouter);
 
 app.listen(3000, () => {
     console.log("server listen on port 3000 " )
