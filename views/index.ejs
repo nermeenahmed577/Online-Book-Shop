@@ -14,16 +14,18 @@
         </select>
         <input type="submit" class="btn btn-primary" value="Filter">
     </form>
-
+    
     <% if (products.length === 0) { %>
         <div class="alert alert-danger mt-4">
             There are no products.
         </div>
     <% } else { %>
         <div class="row mt-4">
+        
             <% for (let product of products) { %>
                 <div class="col col-12 col-md-6 col-lg-4 col-xl-3">
                     <div class="card mb-4" style="width: 100%;">
+                    
                         <img src="/<%= product.image %>" class="card-img-top" style="height: 350px;">
                         <div class="card-body">
                             <h5 class="card-title">
@@ -31,12 +33,13 @@
                             </h5>
                             <p>Price: <%= product.price %> $</p>
                             <form action="/cart" method="POST" class="add-to-cart-form">
+
                                 <input type="number" name="amount" class="form-control mb-2" min="1" value="1">
                                 <input type="hidden" name="name" value="<%= product.name %>">
                                 <input type="hidden" name="price" value="<%= product.price %>">
                                 <input type="hidden" name="productId" value="<%= product._id %>">
                                 <input type="hidden" name="redirectTo" value="/">
-                                <input type="submit" value="Add to cart" class="btn btn-primary">
+                                <input type="submit" value="Add to cart" class="btn btn-primary w-100">
                             </form>
                         </div>
                     </div>
