@@ -7,14 +7,26 @@
             There is no Product matches this id
         </div>
     <% } else { %>
+        <% if (typeof error !== 'undefined' && error) { %>
+            <div class="alert alert-danger">
+                <%= error %>
+            </div>
+        <% } %>
+        
         <div class="row">
             <div class="col col-12 col-md-6">
                 <div class="card" style="width: 100%;">
-                    <img src="/<%= product.image%>" class="card-img-top" style="max-height: 400px">
+                    <img src="/<%= product.image%>" class="card-img-top" style="max-height: 600px;">
                     <div class="card-body">
-                        <form action="/cart" method="POST" class="add-to-cart-form">
-                            <input type="number" name="amount" class="form-control">
+                        <form action="/cart" method="POST" class="add-to-cart-form" 
+                              onsubmit="return document.getElementById('amount').value > 0 || (document.getElementById('amountError').textContent='Please enter at least 1', false)">
+                            <input type="number" name="amount" id="amount" class="form-control" min="1" value="1" 
+                                   onchange="if(this.value <= 0) document.getElementById('amountError').textContent='Please enter at least 1'; else document.getElementById('amountError').textContent=''">
+                            <input type="hidden" name="name" value="<%= product.name %>">
+                            <input type="hidden" name="price" value="<%= product.price %>">
+                            <input type="hidden" name="productId" value="<%= product._id %>">
                             <input type="submit" value="Add to cart" class="btn btn-primary">
+                            <div id="amountError" class="text-danger mt-2"></div>
                         </form>
                     </div>
                 </div>
@@ -23,11 +35,9 @@
                 <h3><%= product.name%></h3>
                 <h5>Price : <%= product.price%> $</h5>
                 <p><%= product.description%></p>
-    
             </div>
         </div>
     <% }  %>
-
 </div>
 
 <%- include('parts/footer')%>
