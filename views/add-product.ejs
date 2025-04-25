@@ -34,9 +34,12 @@
         <% } %>
         <select type="password" class="form-control" name="category">
             <option value="" selected>Choose a category</option>
-            <option value="clothes">Clothes</option>
-            <option value="phones">Phones</option>
-            <option value="computers">Computers</option>
+            <option value="fiction">fiction</option>
+            <option value="dystopian">dystopian</option>
+            <option value="science">science</option>
+            <option value="classic">classic</option>
+            <option value="novel">novel</option>
+            <option value="literature">literature</option>
         </select>
         <% let categoryError = validationErrors.find(err => err.param === 'category') %>
         <% if (categoryError) { %>
