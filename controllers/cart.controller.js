@@ -10,6 +10,7 @@ exports.getCart = (req,res,next) =>{
             res.render('cart', {
                 items: items,
                 isUser: true,
+                isAdmin : req.session.isAdmin ,
                 validationErrors: req.flash('validationErrors'),
                 error: req.flash('error')
             });

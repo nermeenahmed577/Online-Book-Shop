@@ -10,6 +10,7 @@ const productRouter = require('./routes/product.route')
 const authRouter = require('./routes/auth.route')
 
 const cartRouter = require("./routes/cart.route")
+const adminRouter = require("./routes/admin.route")
 
 const app = express();
 
@@ -58,6 +59,7 @@ app.use('/',authRouter)
 
 app.use("/product",productRouter)
 app.use("/cart",cartRouter);
+app.use("/admin",adminRouter);
 
 app.listen(3000, () => {
     console.log("server listen on port 3000 " )
