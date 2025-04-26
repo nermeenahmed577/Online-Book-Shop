@@ -13,6 +13,26 @@ const productSchema = mongoose.Schema({
 
 const Product = mongoose.model("product", productSchema);
 
+exports.addNewProduct = data => {
+    return new Promise((resolve, reject) => {
+        mongoose
+            .connect(DB_URL)
+            .then(() => {
+                let newProduct = new Product(data);
+                return newProduct.save();
+            })
+            .then(products => {
+                mongoose.disconnect();
+                resolve(products);
+            })
+            .catch(err => {
+                mongoose.disconnect();
+                reject(err);
+            });
+    });
+};
+
+
 exports.getAllProducts = () => {
     return new Promise((resolve, reject) => {
 
