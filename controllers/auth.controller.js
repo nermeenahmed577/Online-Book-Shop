@@ -28,3 +28,42 @@ exports.postSignup = (req, res, next) => {
 };
 
 
+
+
+exports.getLogin = (req,res,next) => {
+    console.log();
+    res.render("login" , {
+        authError:req.flash('authError')[0],
+        validationErrors : req.flash("validationErrors"),
+        isUser : false,
+        isAdmin: false
+    });
+};
+
+
+exports.postLogin = (req, res, next) => {
+    if (validationResult(req).isEmpty()) {
+        authModel
+            .login(req.body.email, req.body.password)
+            .then(result => {
+                req.session.userId = result.id;
+                req.session.isAdmin = result.isAdmin
+                res.redirect("/");
+            })
+            .catch(err => {
+                req.flash('authError' , err)
+                res.redirect("/login");
+            });
+        } else {
+            req.flash("validationErrors", validationResult(req).array());
+            res.redirect("/login");
+        }
+           
+};
+exports.logout = (req,res,next) => {
+
+    req.session.destroy (() => {
+        res.redirect("/");
+    })
+}
+
