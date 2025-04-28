@@ -13,13 +13,22 @@ const cartSchema = mongoose.Schema({
 
 const CartItem = mongoose.model("cart", cartSchema);
 
-exports.addNewItem = data => {
+exports.addOrUpdateItem = data => {
     return new Promise((resolve, reject) => {
         mongoose
             .connect(DB_URL)
             .then(() => {
-                let item = new CartItem(data);
-                return item.save();
+                return CartItem.findOne({ productId: data.productId, userId: data.userId });
+            })
+            .then(existingItem => {
+                if (existingItem) {
+                    existingItem.amount += parseInt(data.amount);
+                    existingItem.timestamp = Date.now();
+                    return existingItem.save();
+                } else {
+                    let item = new CartItem(data);
+                    return item.save();
+                }
             })
             .then(() => {
                 mongoose.disconnect();

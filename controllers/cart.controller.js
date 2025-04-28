@@ -27,7 +27,7 @@ exports.postCart = (req,res,next) => {
 
     if (validationResult(req).isEmpty()) {
         cartModel
-            .addNewItem({
+            .addOrUpdateItem({
                 name: req.body.name,
                 price: req.body.price,
                 amount: req.body.amount,
