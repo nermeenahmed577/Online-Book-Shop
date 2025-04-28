@@ -1,0 +1,10 @@
+services:
+  nodeapp:
+    build: .
+    container_name: online_book_shop
+    ports:
+      - "3000:3000"
+    environment:
+      - MONGO_URL=mongodb+srv://bassantehab60:o7kM0Wls0L1IFCgl@cluster0.acffgrk.mongodb.net/online_book_shop?retryWrites=true&w=majority&appName=Cluster0
+    restart: unless-stopped
+    platform: linux/amd64

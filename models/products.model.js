@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const DB_URL = 'mongodb://localhost:27017/Online_Book_Shop';
+const DB_URL = 'mongodb+srv://bassantehab60:o7kM0Wls0L1IFCgl@cluster0.acffgrk.mongodb.net/online_book_shop?retryWrites=true&w=majority&appName=Cluster0';
 
 const productSchema = mongoose.Schema({
     name: String,
@@ -10,16 +10,20 @@ const productSchema = mongoose.Schema({
     description: String
 });
 
-const Product = mongoose.model("product", productSchema);
+const Product = mongoose.model("product", productSchema);// 2al S bttdaf 
 
 exports.getAllProducts = () => {
+
+  /* 1- connect to db
+        2-get products
+        3-disconnect
+  */     
+        //promise 1 ---> resolve "Called when the function  succeeds" (trigger.then)
+        //promise 2 ---> reject ""called when the function fails (triggers.catch)    
+     
     return new Promise((resolve, reject) => {
 
-        //connect to db
-        //get products
-        //disconnect
-        
-        mongoose.connect(DB_URL).then(() => {
+   mongoose.connect(DB_URL).then(() => {
             return Product.find({});
         }).then(products => {
             mongoose.disconnect();
@@ -40,7 +44,10 @@ exports.getProductsByCategory = (category)=>{
         }).then(products =>{
             mongoose.disconnect()
             resolve(products)
-        }).catch(err=>reject(err))
+        })
+        .catch(err => {
+            mongoose.disconnect(reject(err));
+        });
     })
 }
 
@@ -55,7 +62,10 @@ exports.getProductById = (id) => {
                 mongoose.disconnect();
                 resolve(product);
             })
-            .catch(err => reject(err));
+            .catch(err => {
+                mongoose.disconnect();
+                reject(err);
+            });
             
     });
 };
