@@ -25,15 +25,6 @@ const STORE = new SessionStore({
     collection: "sessions"
 });
 
-app.use(
-    session({
-        secret: "this is my secret secret to hash express sessions ......",
-        saveUninitialized: false,
-        store: STORE,
-        resave: false             // <== Fixes the warning
-    })
-);
-
 
 app.set('view engine','ejs')
 app.set('views',path.join(__dirname, 'views'))

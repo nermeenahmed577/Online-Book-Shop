@@ -60,7 +60,10 @@ exports.getProductsByCategory = (category)=>{
         }).then(products =>{
             mongoose.disconnect()
             resolve(products)
-        }).catch(err=>reject(err))
+        }).catch(err => {
+            mongoose.disconnect();
+            reject(err);
+        });
     })
 }
 
@@ -75,7 +78,10 @@ exports.getProductById = (id) => {
                 mongoose.disconnect();
                 resolve(product);
             })
-            .catch(err => reject(err));
+            .catch(err => {
+                mongoose.disconnect();
+                reject(err);
+            });
             
     });
 };
