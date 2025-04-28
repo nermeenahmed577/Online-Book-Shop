@@ -11,8 +11,9 @@ exports.getOrderVerify = (req, res, next) => {
                 cart: cartItem,
                 isUser: true,
                 isAdmin: req.session.isAdmin,
-                pageTitle: "Verify Order",
+                pageTitle: 'Verify Order',
                 validationError: req.flash("validationErrors")[0]
+               
             });
         })
         .catch(err => { 
@@ -24,10 +25,11 @@ exports.getOrder = (req, res, next) => {
         .getOrdersByUser(req.session.userId)
         .then(items => {
             res.render("orders", {
-                pageTitle: "Orders",
+                pageTitle: 'Orders',
                 isUser: true,
                 isAdmin: req.session.isAdmin,
-                items: items
+                items: items,
+                
             });
         })
         .catch(err => res.redirect("/error"));

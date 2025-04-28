@@ -6,7 +6,8 @@ exports.getProduct = (req, res, next) => {
             product: product,
             isUser: req.session.userId !== undefined,
             isAdmin: req.session.isAdmin !== undefined,
-            error: req.query.error // Pass the error to the view
+            error: req.query.error ,// Pass the error to the view
+            pageTtile: 'Products'
             
         })
     }).catch(err => next(err));
