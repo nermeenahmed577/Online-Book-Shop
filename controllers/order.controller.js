@@ -31,3 +31,26 @@ exports.getOrder = (req, res, next) => {
         })
         .catch(err => res.redirect("/error"));
 };
+
+exports.postOrder = (req, res, next) => {
+    if (validationResult(req).isEmpty())
+        orderModel
+            .addNewOrder(req.body)
+            .then(() => res.redirect("/orders"))
+            .catch(err => {
+                res.redirect("/error");
+            });
+    else {
+        req.flash("validationErrors", validationResult(req).array());
+        res.redirect("/verify-order?order=" + req.body.cartId);
+    }
+};
+
+exports.postCancel = (req, res, next) => {
+    orderModel
+        .cancelOrder(req.body.orderId)
+        .then(() => res.redirect("/orders"))
+        .catch(err => {
+            res.redirect("/error");
+        });
+};

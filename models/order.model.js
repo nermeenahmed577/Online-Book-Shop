@@ -40,3 +40,39 @@ exports.getOrdersByUser = userId => {
             });
     });
 };
+exports.addNewOrder = data => {
+    return new Promise((resolve, reject) => {
+        cartModel
+            .deleteItem(data.cartId)
+            .then(() => mongoose.connect(DB_URL))
+            .then(() => {
+                data.timestamp = Date.now();
+                let order = new Order(data);
+                return order.save();
+            })
+            .then(() => {
+                mongoose.disconnect();
+                resolve();
+            })
+            .catch(err => {
+                mongoose.disconnect();
+                reject(err);
+            });
+    });
+};
+
+exports.cancelOrder = id => {
+    return new Promise((resolve, reject) => {
+        mongoose
+            .connect(DB_URL)
+            .then(() => Order.findByIdAndDelete(id))
+            .then(() => {
+                mongoose.disconnect();
+                resolve();
+            })
+            .catch(err => {
+                mongoose.disconnect();
+                reject(err);
+            });
+    });
+};
