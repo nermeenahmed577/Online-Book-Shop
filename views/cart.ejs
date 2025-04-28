@@ -28,6 +28,7 @@
                             <td>
                                 <input type="hidden" name="cartId" value="<%= items[i]._id %>">
                                 <input type="submit" class="btn btn-success" value="Save" formaction="/cart/save">
+                                <a class="btn btn-primary" href="/verify-order?order=<%= items[i]._id %>"> Order </a>
                                 <input type="submit" class="btn btn-danger" value="Delete" formaction="/cart/delete">
                             </td>
                         </form>

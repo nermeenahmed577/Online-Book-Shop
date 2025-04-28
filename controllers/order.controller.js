@@ -15,7 +15,8 @@ exports.getOrderVerify = (req, res, next) => {
                 validationError: req.flash("validationErrors")[0]
             });
         })
-        .catch(err => res.redirect("/error"));
+        .catch(err => { 
+            res.redirect("/error")});
 };
 
 exports.getOrder = (req, res, next) => {
