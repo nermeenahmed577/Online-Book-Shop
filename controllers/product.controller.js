@@ -5,7 +5,7 @@ exports.getProduct = (req, res, next) => {
         res.render("product" , {
             product: product,
             isUser: req.session.userId !== undefined,
-            isAdmin: req.session.isAdmin !== undefined,
+            isAdmin: req.session.isAdmin,
             error: req.query.error ,// Pass the error to the view
             pageTitle: 'Products'
             
@@ -20,7 +20,7 @@ exports.getProductById = (req, res, next) => {
         res.render("product" , {
             product: product,
             isUser: req.session.userId !== undefined,
-            isAdmin: req.session.isAdmin !== undefined,
+            isAdmin: req.session.isAdmin,
             pageTitle: 'Products'
         })
     })
