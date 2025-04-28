@@ -14,21 +14,21 @@ const userSchema = mongoose.Schema({
     }
 });
 
-const User = mongoose.model("user", userSchema);
+const User = mongoose.model("user", userSchema);//mongo take user change it to lower case then add s on it
 
 exports.createNewUser = (username, email, password) => {
     return new Promise((resolve, reject) => {
         mongoose
             .connect(DB_URL)
-            .then(() => {
+            .then(() => {//check if email exists
                 return User.findOne({ email: email });
             })
-            .then(user => {
-                if (user) {
-                    mongoose.disconnect();
+            .then(user => {//user is the output from findone
+                if (user) {//if exists
+                    mongoose.disconnect();//disconnection of mongoose is done in resolve and reject
                     reject("email is used");
                 } else {
-                    return bcrypt.hash(password, 10);
+                    return bcrypt.hash(password, 10);//10 is a string used in hashing algorithm
                 }
             })
             .then(hashedPassword => {
@@ -41,7 +41,7 @@ exports.createNewUser = (username, email, password) => {
             })
             .then(() => {
                 mongoose.disconnect();
-                resolve("user created successfully");
+                resolve();
             })
             .catch(err => {
                 mongoose.disconnect();

@@ -1,9 +1,9 @@
 const authModel = require("../models/auth.model");
-const validationResult = require("express-validator").validationResult;
+const validationResult = require("express-validator").validationResult;//function inside express-validator module
 
 exports.getSignup = (req, res, next) => {
-    res.render("signup", {
-        authError: req.flash("authError")[0],
+    res.render("signup", {//render signup page frontend
+        authError: req.flash("authError")[0],//Gets the first authentication error message from flash storage
         validationErrors: req.flash("validationErrors"),
         isUser: false,
         isAdmin: false,
@@ -22,7 +22,7 @@ exports.postSignup = (req, res, next) => {
                 res.redirect("/signup");
             });
     } else {
-        req.flash("validationErrors", validationResult(req).array());
+        req.flash("validationErrors", validationResult(req).array());//flash--> store the array of errors and to share the data into different requests
         res.redirect("/signup");
     }
 };

@@ -85,3 +85,19 @@ exports.deleteItem = id => {
             });
     });
 };
+
+exports.getItemById = id => {
+    return new Promise((resolve, reject) => {
+        mongoose
+            .connect(DB_URL)
+            .then(() => CartItem.findById(id))
+            .then(item => {
+                mongoose.disconnect();
+                resolve(item);
+            })
+            .catch(err => {
+                mongoose.disconnect();
+                reject(err);
+            });
+    });
+};
