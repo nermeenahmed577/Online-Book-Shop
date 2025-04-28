@@ -1,37 +1,56 @@
+<%
+// Prevent "not defined" errors by assigning default values
+const page = typeof pageTitle !== 'undefined' ? pageTitle : '';
+const admin = typeof isAdmin !== 'undefined' ? isAdmin : false;
+const user = typeof isUser !== 'undefined' ? isUser : false;
+%>
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container">
-      <a class="navbar-brand" href="/">
-          <img src="/books.png" alt="Logo" width="40" height="40" class="d-inline-block align-text-top">
-        </a>
-      <div class="container-fluid">
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <img src="/books.png" alt="Logo" width="40" height="40" class="d-inline-block align-text-top">
+    </a>
+    <div class="container-fluid">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link <%= page === 'Home' ? 'active' : '' %>" aria-current="page" href="/">Home</a>
+          </li>
+
+          <% if (user) { %>
             <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="/">Home</a>
+              <a class="nav-link <%= page === 'Cart' ? 'active' : '' %>" href="/cart">Cart</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/cart">Cart</a>
+              <a class="nav-link <%= page === 'Orders' ? 'active' : '' %>" href="/orders">Orders</a>
+            </li>
+          <% } else { %>
+            <li class="nav-item">
+              <a class="nav-link <%= page === 'Login' ? 'active' : '' %>" href="/login">Login</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/orders">Orders</a>
+              <a class="nav-link <%= page === 'Signup' ? 'active' : '' %>" href="/signup">Signup</a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/login">Login</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/signup">Signup</a>
-            </li>
-            <li class="nav-item">
+          <% } %>
+
+          <% if (admin) { %>
+            <li class="nav-item <%= page === 'Add Product' ? 'active' : '' %>">
               <a class="nav-link" href="/admin/add">Add Product</a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/admin/orders">Manage Orders</a>
-            </li>
+          <% } %>
+        </ul>
 
+        <% if (user) { %>
+          <form action="/logout" method="POST">
+            <input type="submit" value="Logout" class="btn btn-danger">
+          </form>
+        <% } %>
       </div>
     </div>
-    </nav>
+  </div>
+</nav>
+

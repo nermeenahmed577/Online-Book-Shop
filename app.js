@@ -3,32 +3,67 @@ const express = require("express");
 
 // Import the built-in 'path' module to handle and transform file paths
 const path = require("path");
+const session = require("express-session");
+const SessionStore = require("connect-mongodb-session")(session);
+const flash = require("connect-flash");
 
-// Import route handlers for different URL paths
-const homeRouter = require('./routes/home.route')          // Handles routes for the home page
-const productRouter = require('./routes/product.route')    // Handles routes for product-related pages
 
-// Create an instance of an Express application
+const homeRouter = require('./routes/home.route')
+
+const productRouter = require('./routes/product.route')
+const authRouter = require('./routes/auth.route')
+
+const cartRouter = require("./routes/cart.route")
+const adminRouter = require("./routes/admin.route")
+const orderRouter = require("./routes/orders.route")
+
 const app = express();
 
 // Serve static files from the 'assets' directory
 app.use(express.static(path.join(__dirname, 'assets')));
 
-// Serve static files from the 'images' directory
-app.use(express.static(path.join(__dirname, 'images')));
+app.use(flash());
 
-// Set the view engine to 'ejs' for rendering dynamic pages
-app.set('view engine', 'ejs');
+const STORE = new SessionStore({
+    uri:"mongodb+srv://bassantehab60:o7kM0Wls0L1IFCgl@cluster0.acffgrk.mongodb.net/online_book_shop?retryWrites=true&w=majority&appName=Cluster0",
+    collection: "sessions"
+});
 
-// Set the directory where the view templates are located
-app.set('views', 'views');
+app.use(
+    session({
+        secret: "this is my secret secret to hash express sessions ......",
+        saveUninitialized: false,
+        store: STORE,
+        resave: false             // <== Fixes the warning
+    })
+);
 
-// Use the homeRouter for all requests to the root URL '/'
-app.use('/', homeRouter);
 
-// Use the productRouter for all requests to URLs starting with '/product'
-app.use("/product", productRouter);
+app.set('view engine','ejs')
+app.set('views',path.join(__dirname, 'views'))
 
-// Start the server and listen on port 3000
-const port = process.env.PORT || 3000;
-app.listen(port, '0.0.0.0', () => console.log("Listening on port ${port}..."));
+
+app.use(
+    session({
+        secret: "this is my secret secret to hash express sessions ......",
+        saveUninitialized: false,
+        store: STORE,
+        resave: false
+    })
+);
+
+app.use (flash())
+
+
+app.use('/',homeRouter)
+
+app.use('/',authRouter)
+
+app.use("/product",productRouter)
+app.use("/cart",cartRouter);
+app.use("/admin",adminRouter);
+app.use("/", orderRouter);
+app.listen(3000, () => {
+    console.log("server listen on port 3000 " )
+})
+

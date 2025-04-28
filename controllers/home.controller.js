@@ -12,6 +12,7 @@ exports.getHome = (req, res, next) => {
     let validCategories = ['fiction', 'dystopian', 'science', 'classic', 'Novel', 'literature']
    // Step 3: Declare a variable to hold the promise that retrieves products
     let productsPromise
+
     // Step 4: Check if the category exists and is valid
     // - If valid, get products by that category
     // - If not, get all products
@@ -19,9 +20,17 @@ exports.getHome = (req, res, next) => {
     else productsPromise = productsModel.getAllProducts(category)
     // Step 5: Once the products are retrieved, render the 'index.ejs' template
     // - Pass the products list to the view
+
+
+    
+
     productsPromise.then(products => {
         res.render('index', {
-            products: products
+            products: products,
+            isUser : req.session.userId,
+            isAdmin : req.session.isAdmin,
+            validationError: req.flash('validationErrors')[0],
+            pageTitle: "Home"
         })
     })
-};
+}

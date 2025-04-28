@@ -12,6 +12,26 @@ const productSchema = mongoose.Schema({
 
 const Product = mongoose.model("product", productSchema);// 2al S bttdaf 
 
+exports.addNewProduct = data => {
+    return new Promise((resolve, reject) => {
+        mongoose
+            .connect(DB_URL)
+            .then(() => {
+                let newProduct = new Product(data);
+                return newProduct.save();
+            })
+            .then(products => {
+                mongoose.disconnect();
+                resolve(products);
+            })
+            .catch(err => {
+                mongoose.disconnect();
+                reject(err);
+            });
+    });
+};
+
+
 exports.getAllProducts = () => {
 
   /* 1- connect to db
