@@ -31,7 +31,6 @@ exports.postSignup = (req, res, next) => {
 
 
 exports.getLogin = (req,res,next) => {
-    console.log();
     res.render("login" , {
         authError:req.flash('authError')[0],
         validationErrors : req.flash("validationErrors"),
