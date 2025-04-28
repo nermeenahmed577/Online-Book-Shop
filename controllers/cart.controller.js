@@ -12,7 +12,8 @@ exports.getCart = (req,res,next) =>{
                 isUser: true,
                 isAdmin : req.session.isAdmin ,
                 validationErrors: req.flash('validationErrors'),
-                error: req.flash('error')
+                error: req.flash('error'),
+                pageTitle: "Cart"
             });
         })
         .catch(err => {
